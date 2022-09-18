@@ -1,0 +1,29 @@
+#include<avr/io.h>
+#include<avr/interrupt.h>
+
+void setupTimer1(){
+	OCR1A=1000;
+	TIMSK |=(1<<OCIE1A);
+	TCCR1A = (1<<FOC1A);
+	TCCR1B = (1<<CS12)|(1<<CS10)|(1<<WGM13);
+	SREG |=(7<<1);
+}
+unsigned char counter=0;
+ISR(TIMER1_COMPA_vect)
+{
+	counter%=10;
+	PORTC =counter;
+	counter++;
+}
+int main ()
+{
+	DDRC|=0x0f;
+	DDRA |=0Xff;
+	PORTA |=0xff;
+	PORTC =0xff;
+	setupTimer1();
+	while(1){
+
+	}
+
+}

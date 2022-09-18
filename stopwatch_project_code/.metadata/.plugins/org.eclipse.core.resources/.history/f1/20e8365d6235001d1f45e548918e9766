@@ -1,0 +1,54 @@
+#include<avr/io.h>
+#include<avr/interrupt.h>
+#include<util/delay.h>
+
+void setupTimer1(void){
+	OCR1A=976;
+	TCCR1A = (1<<FOC1A)| (1<<FOC1B);
+	TCCR1B = (1<<CS12)|(1<<CS10)|(1<<WGM12);
+	TCNT1=0;
+	TIMSK |=(1<<OCIE1A);
+	//	TCCR1B = (1<<WGM12) | (1<<CS11);
+}
+unsigned char g_counter=1;
+ISR(TIMER1_COMPA_vect)
+{
+	PORTC =g_counter;
+	g_counter++;
+}
+int main ()
+{
+	SREG|=(1<<7); // enable I-global interrupt
+	DDRC|=0x0f; // decoder
+	DDRA |=0Xff; // enable 6-7 segment
+	PORTA |=0x20;
+	PORTC &=0xff;
+	setupTimer1();
+	for(;;){
+		int counter=g_counter;
+		int sec=counter%60;  //extract seconds
+		counter/=60; //convert counter to min
+		int min=counter%60; //extract min
+		counter/=60; //convert to hours
+		int hour =counter; //the rest of the number is hours
+		PORTA=(PORTA&0x80)|0x20; //setting value of least digit
+		PORTC=(PORTC&0xf0)|((sec%10)&0x0f);//set units of sec
+		_delay_ms(2);
+		PORTA=(PORTA&0x80)|0x10; //setting value of second least digit
+		PORTC=(PORTC&0xf0)|((sec/10)&0x0f);//set tenth of sec
+		_delay_ms(2);
+		PORTA=(PORTA&0x80)|0x08; //setting value of third least digit
+		PORTC=(PORTC&0xf0)|((min%10)&0x0f);//set units of min
+		_delay_ms(2);
+		PORTA=(PORTA&0x80)|0x04; //setting value of fourth least digit
+		PORTC=(PORTC&0xf0)|((min/10)&0x0f);//set tenth of min
+		_delay_ms(2);
+		PORTA=(PORTA&0x80)|0x02; //setting value of fifth least digit
+		PORTC=(PORTC&0xf0)|((hour%10)&0x0f);//set units of hour
+		_delay_ms(2);
+		PORTA=(PORTA&0x80)|0x01; //setting value of  most digit
+		PORTC=(PORTC&0xf0)|((hour/10)&0x0f);//set tenth of hour
+		_delay_ms(2);
+	}
+
+}

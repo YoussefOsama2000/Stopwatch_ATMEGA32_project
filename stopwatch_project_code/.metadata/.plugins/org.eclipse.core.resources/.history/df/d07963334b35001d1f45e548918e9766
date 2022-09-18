@@ -1,0 +1,10 @@
+#include<avr/io.h>
+#include<avr/interrupt.h>
+void setupTimer1(){
+	OCR1A=1000;
+	TIMSK |=(1<<OCIE1A);
+	TCCR1A = (1<<FOC1A);
+	TTCR1B = (1<<CS12)|(1<<CS10)|(1<<WGM13);
+
+}
+int main (){}

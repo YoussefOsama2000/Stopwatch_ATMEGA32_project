@@ -1,0 +1,7 @@
+#include<avr/io.h>
+#include<avr/interrupt.h>
+void setupTimer1(){
+	OCR1A=0;
+
+}
+int main (){}
