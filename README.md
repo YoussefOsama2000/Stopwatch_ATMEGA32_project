@@ -7,5 +7,4 @@ I made this project to practice on some embedded systems concepts to master them
   <li> i/o</li>
 </ul>
 <img align="left" alt="Youssef's gmail" width="30px"
-      src="[https://user-images.githubusercontent.com/76125650/141382583-1354ab1c-10a7-4605-a255-412ee57d2ad7.png](https://github.com/YoussefOsama2000/atmega32_stopwatch/blob/master/Screenshot%202022-09-23%20005826.png?raw=true)"
-      draggable="false" />
+      src="https://raw.githubusercontent.com/YoussefOsama2000/atmega32_stopwatch/master/Screenshot%202022-09-23%20005826.png/>
